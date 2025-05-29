@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter, setSortBy } from '../store/todoSlice';
 import TodoForm from '../components/TodoForm';
@@ -10,11 +10,20 @@ function Home() {
   const filter = useSelector((state) => state.todos.filter);
   const sortBy = useSelector((state) => state.todos.sortBy);
   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredTodos = todos.filter((todo) => {
-    if (filter === 'active') return !todo.completed;
-    if (filter === 'completed') return todo.completed;
-    return true;
+    // Text search
+    const matchesSearch = searchQuery === '' || 
+      todo.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (todo.description && todo.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    // Status filter
+    const matchesStatus = filter === 'all' || 
+      (filter === 'active' && !todo.completed) ||
+      (filter === 'completed' && todo.completed);
+    
+    return matchesSearch && matchesStatus;
   });
 
   const sortedTodos = [...filteredTodos].sort((a, b) => {
@@ -33,10 +42,49 @@ function Home() {
     }
   });
 
+  const stats = {
+    total: todos.length,
+    completed: todos.filter(todo => todo.completed).length,
+    active: todos.filter(todo => !todo.completed).length,
+    overdue: todos.filter(todo => {
+      if (!todo.dueDate || todo.completed) return false;
+      return new Date(todo.dueDate) < new Date();
+    }).length
+  };
+
   return (
     <div className="home-page">
       <div className="container">
         <h1>Todo List</h1>
+        
+        <div className="stats-bar">
+          <div className="stat-item">
+            <span className="stat-number">{stats.total}</span>
+            <span className="stat-label">Total</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">{stats.active}</span>
+            <span className="stat-label">Active</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number">{stats.completed}</span>
+            <span className="stat-label">Completed</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-number overdue">{stats.overdue}</span>
+            <span className="stat-label">Overdue</span>
+          </div>
+        </div>
+
+        <div className="search-section">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search tasks..."
+            className="search-input"
+          />
+        </div>
         
         <div className="filters">
           <select
@@ -63,9 +111,15 @@ function Home() {
         <TodoForm />
         
         <div className="todo-list">
-          {sortedTodos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
-          ))}
+          {sortedTodos.length > 0 ? (
+            sortedTodos.map((todo) => (
+              <TodoItem key={todo.id} todo={todo} />
+            ))
+          ) : (
+            <div className="no-todos">
+              {searchQuery ? 'No tasks match your search' : 'No tasks found'}
+            </div>
+          )}
         </div>
       </div>
     </div>

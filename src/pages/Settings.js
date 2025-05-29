@@ -1,37 +1,91 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { 
+  setTheme, 
+  setNotifications, 
+  setDefaultPriority, 
+  setDefaultDueDate,
+  clearAllData,
+  importData
+} from '../store/todoSlice';
 import './Settings.css';
 
 function Settings() {
   const dispatch = useDispatch();
-  const [theme, setTheme] = useState('light');
-  const [notifications, setNotifications] = useState(true);
-  const [defaultPriority, setDefaultPriority] = useState('medium');
-  const [defaultDueDate, setDefaultDueDate] = useState('none');
+  const {
+    theme,
+    notifications,
+    defaultPriority,
+    defaultDueDate,
+    items,
+    categories
+  } = useSelector((state) => state.todos);
 
   const handleThemeChange = (newTheme) => {
-    setTheme(newTheme);
-    // TODO: Implement theme change logic
+    dispatch(setTheme(newTheme));
+    // Apply theme to body class
+    document.body.className = newTheme;
   };
 
   const handleNotificationsChange = (enabled) => {
-    setNotifications(enabled);
-    // TODO: Implement notifications logic
+    dispatch(setNotifications(enabled));
   };
 
   const handleDefaultPriorityChange = (priority) => {
-    setDefaultPriority(priority);
-    // TODO: Implement default priority logic
+    dispatch(setDefaultPriority(priority));
   };
 
   const handleDefaultDueDateChange = (dueDate) => {
-    setDefaultDueDate(dueDate);
-    // TODO: Implement default due date logic
+    dispatch(setDefaultDueDate(dueDate));
+  };
+
+  const handleClearAllData = () => {
+    if (window.confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+      dispatch(clearAllData());
+    }
+  };
+
+  const handleExportData = () => {
+    const dataToExport = {
+      items,
+      categories,
+      exportDate: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(dataToExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `todo-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportData = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (window.confirm('Are you sure you want to import this data? This will replace your current data.')) {
+            dispatch(importData(importedData));
+          }
+        } catch (error) {
+          alert('Error importing file. Please check the file format.');
+        }
+      };
+      reader.readAsText(file);
+    }
   };
 
   return (
-    <div className="settings-page">
+    <div className={`settings-page ${theme}`}>
       <div className="container">
         <h1>Settings</h1>
         
@@ -102,9 +156,21 @@ function Settings() {
         <div className="settings-section">
           <h2>Data Management</h2>
           <div className="setting-item">
-            <button className="danger-button">Clear All Data</button>
-            <button className="secondary-button">Export Data</button>
-            <button className="secondary-button">Import Data</button>
+            <button className="danger-button" onClick={handleClearAllData}>
+              Clear All Data
+            </button>
+            <button className="secondary-button" onClick={handleExportData}>
+              Export Data
+            </button>
+            <label className="secondary-button file-input-label">
+              Import Data
+              <input 
+                type="file" 
+                accept=".json" 
+                onChange={handleImportData}
+                style={{ display: 'none' }}
+              />
+            </label>
           </div>
         </div>
 
