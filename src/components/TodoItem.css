@@ -1,129 +1,440 @@
 .todo-item {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 15px;
+  flex-direction: column;
   background: white;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 2px solid #f0f0f0;
+  padding: 15px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .todo-item:hover {
-  transform: translateX(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
 }
 
-.todo-content {
+.todo-item.selected {
+  border-color: #fda085;
+  background: #fef9f7;
+}
+
+.todo-item.completed {
+  opacity: 0.7;
+  background: #f8f9fa;
+}
+
+.todo-item.overdue {
+  border-left: 4px solid #ff6b6b;
+}
+
+.todo-main {
   display: flex;
-  gap: 15px;
-  flex: 1;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.todo-select {
+  margin-top: 2px;
+  transform: scale(1.2);
+  accent-color: #fda085;
 }
 
 .todo-checkbox {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  margin-top: 3px;
+  margin-top: 2px;
+  transform: scale(1.2);
+  accent-color: #4ecdc4;
 }
 
-.todo-details {
+.todo-content {
+  flex: 1;
+  cursor: pointer;
+}
+
+.todo-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  flex: 1;
+  gap: 8px;
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .todo-text {
   font-size: 1rem;
   color: #333;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.todo-text.completed {
+.todo-text.completed-text {
   text-decoration: line-through;
   color: #888;
 }
 
-.todo-description {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
-}
-
-.todo-due-date {
-  font-size: 0.8rem;
-  color: #888;
-  font-style: italic;
-}
-
-.todo-actions {
+.todo-badges {
   display: flex;
-  gap: 10px;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.edit-form {
-  display: flex;
-  gap: 10px;
-  flex: 1;
-}
-
-.edit-input {
-  flex: 1;
-  padding: 8px;
-  border: 2px solid #eee;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.edit-input:focus {
-  outline: none;
-  border-color: #fda085;
-}
-
-.edit-button,
-.save-button,
-.cancel-button,
-.delete-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s ease;
-}
-
-.edit-button {
-  background: #4ecdc4;
+.priority-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
   color: white;
 }
 
-.edit-button:hover {
-  background: #45b7af;
+.priority-badge.high {
+  background: #ff6b6b;
 }
 
-.save-button {
+.priority-badge.medium {
+  background: #fda085;
+}
+
+.priority-badge.low {
   background: #4ecdc4;
+}
+
+.category-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
   color: white;
+  font-weight: 500;
 }
 
-.save-button:hover {
-  background: #45b7af;
-}
-
-.cancel-button {
-  background: #ffd93d;
+.due-date {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  background: #95e1d3;
   color: #333;
 }
 
-.cancel-button:hover {
-  background: #e6c437;
-}
-
-.delete-button {
+.due-date.overdue {
   background: #ff6b6b;
   color: white;
 }
 
-.delete-button:hover {
-  background: #ff5252;
+.subtask-count {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  background: #e9ecef;
+  color: #495057;
+}
+
+.todo-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #4ecdc4;
+  transition: width 0.3s ease;
+}
+
+.todo-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.tag-badge {
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  color: white;
+  font-weight: 500;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+}
+
+.action-btn:hover {
+  background: #f8f9fa;
+}
+
+.action-btn.delete-btn:hover {
+  background: #ffe6e6;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.edit-text {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.edit-description {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 60px;
+  resize: vertical;
+}
+
+.edit-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.edit-controls select,
+.edit-controls input[type="date"] {
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.save-btn {
+  background: #4ecdc4;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #45b7aa;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}
+
+.todo-expanded {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.subtasks-section h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.add-subtask {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.add-subtask input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-subtask button {
+  padding: 8px 16px;
+  background: #fda085;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-subtask button:hover {
+  background: #f6d365;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.subtask-item:last-child {
+  border-bottom: none;
+}
+
+.subtask-item input[type="checkbox"] {
+  transform: scale(1.1);
+  accent-color: #4ecdc4;
+}
+
+.subtask-item span {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.subtask-item span.completed-text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.delete-subtask-btn {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.delete-subtask-btn:hover {
+  background: #ffe6e6;
+}
+
+.time-info {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Dark theme support */
+.dark .todo-item {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark .todo-item.selected {
+  border-color: #fda085;
+  background: #3a2f2a;
+}
+
+.dark .todo-item.completed {
+  background: #2a2d3a;
+}
+
+.dark .todo-text {
+  color: #e2e8f0;
+}
+
+.dark .todo-description {
+  color: #a0aec0;
+}
+
+.dark .edit-form {
+  background: #4a5568;
+}
+
+.dark .edit-text,
+.dark .edit-description,
+.dark .edit-controls select,
+.dark .edit-controls input {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark .add-subtask input {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark .subtask-item {
+  border-color: #4a5568;
+}
+
+.dark .subtask-item span {
+  color: #cbd5e0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .todo-item {
+    padding: 12px;
+  }
+  
+  .todo-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .todo-badges {
+    align-self: flex-start;
+  }
+  
+  .edit-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .edit-controls select,
+  .edit-controls input[type="date"] {
+    width: 100%;
+  }
 } 

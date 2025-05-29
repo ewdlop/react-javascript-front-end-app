@@ -5,28 +5,35 @@ import './Navigation.css';
 function Navigation() {
   const location = useLocation();
 
+  const navItems = [
+    { path: '/', label: 'Todo List', icon: '📝' },
+    { path: '/categories', label: 'Categories', icon: '📁' },
+    { path: '/tags', label: 'Tags', icon: '🏷️' },
+    { path: '/calendar', label: 'Calendar', icon: '📅' },
+    { path: '/statistics', label: 'Statistics', icon: '📊' },
+    { path: '/search', label: 'Search', icon: '🔍' },
+    { path: '/settings', label: 'Settings', icon: '⚙️' }
+  ];
+
   return (
     <nav className="navigation">
       <div className="nav-container">
+        <div className="nav-brand">
+          <span className="brand-icon">✅</span>
+          <span className="brand-text">TodoApp</span>
+        </div>
+        
         <div className="nav-links">
-          <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
-            Todo List
-          </Link>
-          <Link to="/categories" className={`nav-link ${location.pathname === '/categories' ? 'active' : ''}`}>
-            Categories
-          </Link>
-          <Link to="/calendar" className={`nav-link ${location.pathname === '/calendar' ? 'active' : ''}`}>
-            Calendar
-          </Link>
-          <Link to="/statistics" className={`nav-link ${location.pathname === '/statistics' ? 'active' : ''}`}>
-            Statistics
-          </Link>
-          <Link to="/search" className={`nav-link ${location.pathname === '/search' ? 'active' : ''}`}>
-            Search
-          </Link>
-          <Link to="/settings" className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}>
-            Settings
-          </Link>
+          {navItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span className="nav-label">{item.label}</span>
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

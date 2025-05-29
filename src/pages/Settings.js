@@ -14,13 +14,13 @@ import './Settings.css';
 function Settings() {
   const dispatch = useDispatch();
   const {
-    theme,
-    notifications,
-    defaultPriority,
-    defaultDueDate,
-    items,
-    categories
-  } = useSelector((state) => state.todos);
+    theme = 'light',
+    notifications = true,
+    defaultPriority = 'medium',
+    defaultDueDate = 'none',
+    items = [],
+    categories = []
+  } = useSelector((state) => state.todos || {});
 
   const handleThemeChange = (newTheme) => {
     dispatch(setTheme(newTheme));

@@ -5,9 +5,9 @@ import './TodoForm.css';
 
 function TodoForm() {
   const dispatch = useDispatch();
-  const defaultPriority = useSelector((state) => state.todos.defaultPriority);
-  const defaultDueDate = useSelector((state) => state.todos.defaultDueDate);
-  const categories = useSelector((state) => state.todos.categories);
+  const defaultPriority = useSelector((state) => state.todos?.defaultPriority || 'medium');
+  const defaultDueDate = useSelector((state) => state.todos?.defaultDueDate || 'none');
+  const categories = useSelector((state) => state.todos?.categories || []);
   
   const [formData, setFormData] = useState({
     text: '',

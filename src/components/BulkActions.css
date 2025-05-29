@@ -1,0 +1,145 @@
+.bulk-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.bulk-actions.active {
+  background: #fef9f7;
+  border: 2px solid #fda085;
+}
+
+.selection-info {
+  display: flex;
+  align-items: center;
+}
+
+.select-all {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #333;
+  user-select: none;
+}
+
+.select-all-checkbox {
+  transform: scale(1.2);
+  accent-color: #fda085;
+}
+
+.bulk-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.bulk-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.complete-btn {
+  background: #4ecdc4;
+  color: white;
+}
+
+.complete-btn:hover {
+  background: #45b7aa;
+}
+
+.incomplete-btn {
+  background: #95e1d3;
+  color: #333;
+}
+
+.incomplete-btn:hover {
+  background: #7dd3c0;
+}
+
+.priority-dropdown select {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #dee2e6;
+}
+
+.priority-dropdown select:hover {
+  background: #e9ecef;
+}
+
+.delete-btn {
+  background: #ff6b6b;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #ff5252;
+}
+
+.clear-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.clear-btn:hover {
+  background: #5a6268;
+}
+
+/* Dark theme support */
+.dark .bulk-actions {
+  background: #2d3748;
+  color: #e2e8f0;
+}
+
+.dark .bulk-actions.active {
+  background: #3a2f2a;
+  border-color: #fda085;
+}
+
+.dark .select-all {
+  color: #e2e8f0;
+}
+
+.dark .priority-dropdown select {
+  background: #4a5568;
+  color: #e2e8f0;
+  border-color: #718096;
+}
+
+.dark .priority-dropdown select:hover {
+  background: #2d3748;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .bulk-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .bulk-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .bulk-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+} 

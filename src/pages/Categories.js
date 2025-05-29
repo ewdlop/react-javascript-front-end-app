@@ -6,8 +6,8 @@ import './Categories.css';
 
 function Categories() {
   const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todos.items);
-  const categories = useSelector((state) => state.todos.categories);
+  const todos = useSelector((state) => state.todos?.items || []);
+  const categories = useSelector((state) => state.todos?.categories || []);
   const [newCategory, setNewCategory] = useState('');
 
   const handleAddCategory = () => {
