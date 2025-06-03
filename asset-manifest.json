@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-javascript-front-end-app/static/css/main.31f19cca.css",
+    "main.js": "/react-javascript-front-end-app/static/js/main.c6d7a2bc.js",
+    "index.html": "/react-javascript-front-end-app/index.html",
+    "main.31f19cca.css.map": "/react-javascript-front-end-app/static/css/main.31f19cca.css.map",
+    "main.c6d7a2bc.js.map": "/react-javascript-front-end-app/static/js/main.c6d7a2bc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31f19cca.css",
+    "static/js/main.c6d7a2bc.js"
+  ]
+}
