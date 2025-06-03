@@ -12,7 +12,7 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/react-javascript-front-end-app">
       <div className="App">
         <Navigation />
         <Routes>
